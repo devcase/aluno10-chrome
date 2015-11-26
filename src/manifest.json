@@ -1,0 +1,38 @@
+{
+	"manifest_version" : 2,
+
+	"name" : "Aluno10",
+	"description" : "Plugin para o Aluno10",
+	"version" : "0.0.1",
+
+	"browser_action" : {
+		"default_icon" : {
+			"19" : "icon_19.png"
+		},
+		"default_popup" : "popup.html",
+		"default_title" : "Aluno 10 - clique para começar"
+	},
+
+	"permissions" : [ "webNavigation", "cookies", "*://*.khanacademy.org/" ],
+
+	"icons" : {
+		"128" : "icon_128.png"
+	},
+	"background" : {
+		"persistent" : true,
+		"scripts" : [ "scripts/background.js" ]
+	},
+	"content_scripts" : [
+ 	{
+		"matches" : [ "*://*.khanacademy.org/login*" ],
+		"js" : [ "scripts/libs/jquery.min.js", "scripts/aluno10.js", "scripts/aluno10.khan.js", "scripts/content/khan/login.js" ],
+		"run_at" : "document_idle"
+	},
+	{
+		"matches" : [ "*://*.khanacademy.org/*" ],
+		"js" : [ "scripts/aluno10.js", "scripts/aluno10.khan.js", "scripts/content/khan/khan.js" ],
+		"run_at" : "document_idle"
+	}
+	]
+
+}
