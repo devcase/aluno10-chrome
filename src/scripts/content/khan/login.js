@@ -13,7 +13,8 @@ $(function() {
 			success: function(data) {
 				
 				if(data["continue"]) {
-					alert("Login com sucesso");
+					//avisa que o login foi bem sucedido
+					chrome.runtime.sendMessage({loginSuccessful: true, success: true, data: data});
 				} else if(data.errors) {
 					if(data.errors.badlogin) {
 						alert("Usuário e senha do aluno estão incorretos");

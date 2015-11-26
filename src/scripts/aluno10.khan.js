@@ -33,9 +33,34 @@
 	};
 	
 	aluno10khan.fn.retrieveLoginData = function(callback) {
-		callback({"login": "thiagoaluno10", "password": "???"});
+		//PLACEHOLDER
+		callback({"login": "thiagoaluno10", "password": "Aluno102015"});
 	};
-		
+	
+	aluno10khan.fn.login = function() {
+		chrome.cookies.remove({ //apaga o cookie que guarda dados do login
+			"url" : "https://pt.khanacademy.org/",
+			"name" : "ka_session"
+		}, function() {
+			//Cookie apagado - cria uma aba na página de login
+			chrome.tabs.create({
+				"url": "https://pt.khanacademy.org/login",
+				"active": false
+			}, function(tab) {
+				//aba na página de login criada - aguardar o login
+				//khan/login.js envia mensagem com loginSuccessful = true
+				chrome.runtime.onMessage.addListener(
+					  function(request, sender, sendResponse) {
+						  if(sender.tab.id == tab.id) {
+							  if(request.loginSuccessful) {
+								  chrome.tabs.remove(tab.id);
+							  }
+						  }
+					  });
+			});
+		});
+	};
+	
 	a10.registerModule(aluno10khan, "khan");
 
 })();
